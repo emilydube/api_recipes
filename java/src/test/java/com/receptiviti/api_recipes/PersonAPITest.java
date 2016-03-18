@@ -4,18 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.http.entity.StringEntity;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.lang.reflect.Array;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -23,13 +19,10 @@ public class PersonAPITest {
 
     @Test
     public void createPersonWithWritingSampleRequest() throws IOException {
-        PostMethod postRequest = new PostMethod("https://api.receptiviti.com/api/person");
-        postRequest.setRequestHeader("X-API-KEY",System.getProperty("API_KEY"));
-        postRequest.setRequestHeader("X-API-SECRET-KEY",System.getProperty("API_SECRET_KEY"));
+        PostMethod postRequest = new PostMethod(getPersonAPIUrl());
+        TestUtils.setAuthenticationHeaders(postRequest);
 
         HashMap<String, Object> person = createPerson();
-
-
 
         String responseJsonString = new ObjectMapper().writeValueAsString(person);
 
@@ -43,9 +36,18 @@ public class PersonAPITest {
         client.getHttpConnectionManager().
                 getParams().setConnectionTimeout(5000);
         int status = client.executeMethod(postRequest);
-        System.out.println(postRequest.getResponseBodyAsString());
+        HashMap<String, Object> o = TestUtils.parseResponseBody(postRequest);
+
+        ArrayList writing_samples = (ArrayList) o.get("writing_samples");
+        HashMap<String, Object> analysisResults = (HashMap<String, Object>) writing_samples.get(0);
+        Assert.assertNotNull(analysisResults.get("receptiviti_scores"));
+        Assert.assertNotNull(analysisResults.get("liwc_scores"));
         Assert.assertEquals(200, status);
 
+    }
+
+    public String getPersonAPIUrl() {
+        return TestUtils.getBaseUrl() + "/api/person";
     }
 
     private HashMap<String, Object> createPerson() {
