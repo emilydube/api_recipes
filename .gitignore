@@ -3,3 +3,6 @@
 *.iws
 java/target
 .DS_Store
+.idea
+.cache
+*.pyc

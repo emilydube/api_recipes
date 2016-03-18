@@ -4,7 +4,6 @@
 ##Java
 
 ###Setup
-How do I get set up?
 
 ####JDK 8
 
@@ -18,3 +17,16 @@ Maven is a project builder normally used for most of Java projects. It is suppor
 
 
     mvn test -DAPI_KEY=<Provide API KEY> -DAPI_SECRET_KEY=<Provide API SECRET KEY>
+
+
+##Python
+###Setup
+####Install pip
+https://pip.pypa.io/en/stable/installing/
+
+###Install dependencies
+
+    pip install -r requirements.txt
+    
+###Running Samples
+    py.test --key <Provide API KEY> --secret <Provide API SECRET KEY> -s
