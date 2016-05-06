@@ -2,6 +2,7 @@ package com.receptiviti.api_recipes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.junit.Assert;
@@ -9,6 +10,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.text.MessageFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -19,6 +21,40 @@ public class PersonAPITest {
 
     @Test
     public void createPersonWithWritingSampleRequest() throws IOException {
+        PostMethod postRequest = new PostMethod(getPersonAPIUrl());
+        TestUtils.setAuthenticationHeaders(postRequest);
+
+        HashMap<String, Object> person = createPerson();
+        HashMap<String, Object> writingSample = getWritingSample();
+        person.put("writing_sample", writingSample);
+
+        String responseJsonString = new ObjectMapper().writeValueAsString(person);
+
+        StringRequestEntity requestEntity = new StringRequestEntity(
+                responseJsonString,
+                "application/json",
+                "UTF-8");
+        postRequest.setRequestEntity(requestEntity);
+
+        HttpClient client = new HttpClient();
+        client.getHttpConnectionManager().
+                getParams().setConnectionTimeout(5000);
+        int status = client.executeMethod(postRequest);
+        Assert.assertEquals(200, status);
+
+        HashMap<String, Object> responseJson = TestUtils.parseResponseBody(postRequest);
+        Assert.assertEquals(person.get("client_reference_id"), responseJson.get("client_reference_id"));
+
+        ArrayList samples = (ArrayList) responseJson.get("writing_samples");
+        HashMap<String, Object> analysisResults = (HashMap<String, Object>) samples.get(0);
+        Assert.assertEquals(writingSample.get("client_reference_id"), analysisResults.get("client_reference_id"));
+        Assert.assertNotNull(analysisResults.get("receptiviti_scores"));
+        Assert.assertNotNull(analysisResults.get("liwc_scores"));
+
+    }
+
+    @Test
+    public void createPersonOnly() throws IOException {
         PostMethod postRequest = new PostMethod(getPersonAPIUrl());
         TestUtils.setAuthenticationHeaders(postRequest);
 
@@ -36,18 +72,75 @@ public class PersonAPITest {
         client.getHttpConnectionManager().
                 getParams().setConnectionTimeout(5000);
         int status = client.executeMethod(postRequest);
-        HashMap<String, Object> o = TestUtils.parseResponseBody(postRequest);
-
-        ArrayList writing_samples = (ArrayList) o.get("writing_samples");
-        HashMap<String, Object> analysisResults = (HashMap<String, Object>) writing_samples.get(0);
-        Assert.assertNotNull(analysisResults.get("receptiviti_scores"));
-        Assert.assertNotNull(analysisResults.get("liwc_scores"));
         Assert.assertEquals(200, status);
+        HashMap<String, Object> responseJson = TestUtils.parseResponseBody(postRequest);
+        Assert.assertEquals(person.get("client_reference_id"), responseJson.get("client_reference_id"));
+
+        ArrayList samples = (ArrayList) responseJson.get("writing_samples");
+        Assert.assertEquals(0, samples.size());
 
     }
 
+    @Test
+    public void addSampleForAnExistingPerson() throws IOException {
+        ArrayList<HashMap<String, Object>> allPeople = getAllPeople();
+        HashMap<String, Object> person = allPeople.get(0);
+        String personId = (String) person.get("_id");
+
+
+
+        PostMethod postRequest = new PostMethod(getPersonWritingSampleAPIUrl(personId));
+        TestUtils.setAuthenticationHeaders(postRequest);
+
+        HashMap<String, Object> writingSample = getWritingSample();
+
+        String responseJsonString = new ObjectMapper().writeValueAsString(writingSample);
+
+        StringRequestEntity requestEntity = new StringRequestEntity(
+                responseJsonString,
+                "application/json",
+                "UTF-8");
+        postRequest.setRequestEntity(requestEntity);
+
+        HttpClient client = new HttpClient();
+        client.getHttpConnectionManager().
+                getParams().setConnectionTimeout(5000);
+        int status = client.executeMethod(postRequest);
+        Assert.assertEquals(200, status);
+
+        HashMap<String, Object> responseJson = TestUtils.parseResponseBody(postRequest);
+        Assert.assertEquals(writingSample.get("client_reference_id"), responseJson.get("client_reference_id"));
+
+        Assert.assertNotNull(responseJson.get("receptiviti_scores"));
+        Assert.assertNotNull(responseJson.get("liwc_scores"));
+    }
+
+
+    @Test
+    public void getAllPeopleInTheSystem() throws IOException {
+        ArrayList people = getAllPeople();
+        Assert.assertTrue(people.size()>0);
+    }
+
+
+    public ArrayList<HashMap<String, Object>> getAllPeople() throws IOException {
+        GetMethod getRequest = new GetMethod(getPersonAPIUrl());
+        TestUtils.setAuthenticationHeaders(getRequest);
+
+        HttpClient client = new HttpClient();
+        client.getHttpConnectionManager().
+                getParams().setConnectionTimeout(5000);
+        int status = client.executeMethod(getRequest);
+        Assert.assertEquals(200, status);
+        return TestUtils.parseResponseBody(getRequest);
+    }
+
     public String getPersonAPIUrl() {
-        return TestUtils.getBaseUrl() + "/api/person";
+        return MessageFormat.format("{0}/api/person", TestUtils.getBaseUrl());
+    }
+
+    public String getPersonWritingSampleAPIUrl(String personId) {
+        return MessageFormat.format("{0}/{1}/writing_samples", getPersonAPIUrl(),personId);
     }
 
     private HashMap<String, Object> createPerson() {
@@ -56,7 +149,6 @@ public class PersonAPITest {
         person.put("client_reference_id", UUID.randomUUID().toString());
         person.put("name",UUID.randomUUID().toString());
         person.put("tags",new String[]{"tag1", "tag2"});
-        person.put("writing_sample", getWritingSample());
         return person;
     }
 

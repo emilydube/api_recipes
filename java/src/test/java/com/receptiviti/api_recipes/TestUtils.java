@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class TestUtils {
-    static HashMap<String, Object> parseResponseBody(HttpMethod httpMethod) throws IOException {
+    static <T> T parseResponseBody(HttpMethod httpMethod) throws IOException {
         JsonFactory factory = new JsonFactory();
         ObjectMapper mapper = new ObjectMapper(factory);
-        TypeReference<HashMap<String,Object>> typeRef
-                = new TypeReference<HashMap<String,Object>>() {};
+        TypeReference<T> typeRef
+                = new TypeReference<T>() {};
 
         return mapper.readValue(httpMethod.getResponseBodyAsString(), typeRef);
     }

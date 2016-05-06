@@ -51,6 +51,9 @@ def api_base_url(baseurl):
 def person_api_url(baseurl):
     return "{}/person".format(api_base_url(baseurl))
 
+def person_writing_sample_api_url(baseurl, person_id):
+    return "{}/person/{}/writing_samples".format(api_base_url(baseurl), person_id)
+
 def upload_api_url(baseurl):
     return "{}/upload".format(person_api_url(baseurl))
 
