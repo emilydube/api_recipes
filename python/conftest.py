@@ -2,7 +2,7 @@
 
 import pytest
 
-writing_sample = '''
+content = '''
 It’s systematic in that you don’t just metaphorically describe anything as anything else.
 Instead, it’s mostly abstract things that you describe in terms of concrete things.
 Morality is more abstract than cleanliness. Understanding is more abstract than seeing.
@@ -48,17 +48,22 @@ def apisecret(request):
 def api_base_url(baseurl):
     return "{}/api".format(baseurl)
 
+
 def person_api_url(baseurl):
     return "{}/person".format(api_base_url(baseurl))
 
-def person_writing_sample_api_url(baseurl, person_id):
-    return "{}/person/{}/writing_samples".format(api_base_url(baseurl), person_id)
+
+def person_content_api_url(baseurl, person_id):
+    return "{}/person/{}/contents".format(api_base_url(baseurl), person_id)
+
 
 def upload_api_url(baseurl):
     return "{}/upload".format(person_api_url(baseurl))
 
+
 def ping_url(baseurl):
     return "{}/ping".format(api_base_url(baseurl))
+
 
 def base_headers(apikey, apisecret):
     header = auth_headers(apikey, apisecret)
@@ -73,5 +78,3 @@ def auth_headers(apikey, apisecret):
     if apisecret:
         header['X-API-SECRET-KEY'] = apisecret
     return header
-
-
