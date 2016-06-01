@@ -2,7 +2,7 @@
 
 import pytest
 
-writing_sample = '''
+content = '''
 It’s systematic in that you don’t just metaphorically describe anything as anything else.
 Instead, it’s mostly abstract things that you describe in terms of concrete things.
 Morality is more abstract than cleanliness. Understanding is more abstract than seeing.
