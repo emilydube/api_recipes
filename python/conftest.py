@@ -45,8 +45,13 @@ def apisecret(request):
     return request.config.getoption("--secret")
 
 
+@pytest.fixture
 def twitter_handle():
-    return '@ROMtoronto'
+    return 'anncoulter'
+
+
+def twitter_import_user_api_url(baseurl):
+    return "{}/import/twitter/user".format(api_base_url(baseurl))
 
 
 def api_base_url(baseurl):
