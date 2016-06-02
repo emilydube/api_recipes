@@ -14,7 +14,7 @@ import time
 
 
 @pytest.mark.person_api
-def test_profile_twitter_profile(baseurl, apikey, apisecret, twitter_handle):
+def test_twitter_profile(baseurl, apikey, apisecret, twitter_handle):
     headers = conftest.auth_headers(apikey, apisecret)
 
     response = import_twitter_user(conftest.twitter_import_user_api_url(baseurl), headers, twitter_handle)
