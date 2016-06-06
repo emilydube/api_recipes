@@ -9,7 +9,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,8 +24,8 @@ public class PersonAPITest {
         TestUtils.setAuthenticationHeaders(postRequest);
 
         HashMap<String, Object> person = createPerson();
-        HashMap<String, Object> writingSample = getWritingSample();
-        person.put("writing_sample", writingSample);
+        HashMap<String, Object> content = getContent();
+        person.put("content", content);
 
         String responseJsonString = new ObjectMapper().writeValueAsString(person);
 
@@ -43,11 +42,10 @@ public class PersonAPITest {
         Assert.assertEquals(200, status);
 
         HashMap<String, Object> responseJson = TestUtils.parseResponseBody(postRequest);
-        Assert.assertEquals(person.get("client_reference_id"), responseJson.get("client_reference_id"));
-
-        ArrayList samples = (ArrayList) responseJson.get("writing_samples");
+        Assert.assertEquals(person.get("person_handle"), responseJson.get("person_handle"));
+        ArrayList samples = (ArrayList) responseJson.get("contents");
         HashMap<String, Object> analysisResults = (HashMap<String, Object>) samples.get(0);
-        Assert.assertEquals(writingSample.get("client_reference_id"), analysisResults.get("client_reference_id"));
+        Assert.assertEquals(content.get("content_handle"), analysisResults.get("content_handle"));
         Assert.assertNotNull(analysisResults.get("receptiviti_scores"));
         Assert.assertNotNull(analysisResults.get("liwc_scores"));
 
@@ -74,9 +72,9 @@ public class PersonAPITest {
         int status = client.executeMethod(postRequest);
         Assert.assertEquals(200, status);
         HashMap<String, Object> responseJson = TestUtils.parseResponseBody(postRequest);
-        Assert.assertEquals(person.get("client_reference_id"), responseJson.get("client_reference_id"));
+        Assert.assertEquals(person.get("person_handle"), responseJson.get("person_handle"));
 
-        ArrayList samples = (ArrayList) responseJson.get("writing_samples");
+        ArrayList samples = (ArrayList) responseJson.get("contents");
         Assert.assertEquals(0, samples.size());
 
     }
@@ -89,12 +87,12 @@ public class PersonAPITest {
 
 
 
-        PostMethod postRequest = new PostMethod(getPersonWritingSampleAPIUrl(personId));
+        PostMethod postRequest = new PostMethod(getPersonContentAPIUrl(personId));
         TestUtils.setAuthenticationHeaders(postRequest);
 
-        HashMap<String, Object> writingSample = getWritingSample();
+        HashMap<String, Object> content = getContent();
 
-        String responseJsonString = new ObjectMapper().writeValueAsString(writingSample);
+        String responseJsonString = new ObjectMapper().writeValueAsString(content);
 
         StringRequestEntity requestEntity = new StringRequestEntity(
                 responseJsonString,
@@ -109,7 +107,7 @@ public class PersonAPITest {
         Assert.assertEquals(200, status);
 
         HashMap<String, Object> responseJson = TestUtils.parseResponseBody(postRequest);
-        Assert.assertEquals(writingSample.get("client_reference_id"), responseJson.get("client_reference_id"));
+        Assert.assertEquals(content.get("content_handle"), responseJson.get("content_handle"));
 
         Assert.assertNotNull(responseJson.get("receptiviti_scores"));
         Assert.assertNotNull(responseJson.get("liwc_scores"));
@@ -139,27 +137,27 @@ public class PersonAPITest {
         return MessageFormat.format("{0}/api/person", TestUtils.getBaseUrl());
     }
 
-    public String getPersonWritingSampleAPIUrl(String personId) {
-        return MessageFormat.format("{0}/{1}/writing_samples", getPersonAPIUrl(),personId);
+    public String getPersonContentAPIUrl(String personId) {
+        return MessageFormat.format("{0}/{1}/contents", getPersonAPIUrl(),personId);
     }
 
     private HashMap<String, Object> createPerson() {
         HashMap<String, Object> person = new HashMap<String, Object>();
         person.put("gender",1);
-        person.put("client_reference_id", UUID.randomUUID().toString());
+        person.put("person_handle", UUID.randomUUID().toString());
         person.put("name",UUID.randomUUID().toString());
-        person.put("tags",new String[]{"tag1", "tag2"});
+        person.put("person_tags",new String[]{"tag1", "tag2"});
         return person;
     }
 
-    private HashMap<String, Object> getWritingSample() {
-        HashMap<String, Object> writingSample = new HashMap<String, Object>();
-        writingSample.put("content", "The tortoises of the genus Gopherus have been clocked at rates of 0.21 to 0.48 km (0.13 to 0.30 miles) per hour.") ;
-        writingSample.put("content_source", 0) ;
-        writingSample.put("tags", new String[]{"tag1", "tag2"}) ;
-        writingSample.put("sample_date", ZonedDateTime.now().format(DateTimeFormatter.ISO_INSTANT)) ;
-        writingSample.put("language", "english") ;
-        writingSample.put("client_reference_id", UUID.randomUUID().toString()) ;
-        return writingSample;
+    private HashMap<String, Object> getContent() {
+        HashMap<String, Object> content = new HashMap<String, Object>();
+        content.put("language_content", "The tortoises of the genus Gopherus have been clocked at rates of 0.21 to 0.48 km (0.13 to 0.30 miles) per hour.") ;
+        content.put("content_source", 0) ;
+        content.put("content_tags", new String[]{"tag1", "tag2"}) ;
+        content.put("sample_date", ZonedDateTime.now().format(DateTimeFormatter.ISO_INSTANT)) ;
+        content.put("language", "english") ;
+        content.put("content_handle", UUID.randomUUID().toString()) ;
+        return content;
     }
 }

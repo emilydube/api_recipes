@@ -26,6 +26,6 @@ public class TestUtils {
 
     public static String getBaseUrl() {
         String providedBaseUrl = System.getProperty("BASE_URL");
-        return providedBaseUrl != null ? providedBaseUrl : "https://api.receptiviti.com";
+        return providedBaseUrl != null ? providedBaseUrl : "https://trial.receptiviti.com";
     }
 }

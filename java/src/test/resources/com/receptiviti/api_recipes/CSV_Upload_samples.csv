@@ -1,4 +1,4 @@
-person_reference_id,gender,name,person_tags,sample_content,sample_reference_id,content_source,sample_date,sample_tags
+person_handle,gender,name,person_tags,language_content,content_handle,content_source,content_date,content_tags
 @some_twitter_user12,0,User One,tag1;tag2;,"I think the reason, John, is because though health can't be bought, health care is a big business.
 Thanks, John, and thanks for inviting me.
 The motion that you've heard is ""Obamacare is now beyond rescue.”

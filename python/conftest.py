@@ -25,7 +25,7 @@ to one another.
 
 
 def pytest_addoption(parser):
-    parser.addoption("--baseurl", action="store", default="https://api.receptiviti.com", help="Specify this in the format https://<target_domain_name>")
+    parser.addoption("--baseurl", action="store", default="https://trial.receptiviti.com", help="Specify this in the format https://<target_domain_name>")
     parser.addoption("--key", action="store", default=None, help="The API key for the test user")
     parser.addoption("--secret", action="store", default=None, help="The API secret for the test user")
 
@@ -62,8 +62,8 @@ def person_api_url(baseurl):
     return "{}/person".format(api_base_url(baseurl))
 
 
-def person_writing_sample_api_url(baseurl, person_id):
-    return "{}/person/{}/writing_samples".format(api_base_url(baseurl), person_id)
+def person_content_api_url(baseurl, person_id):
+    return "{}/person/{}/contents".format(api_base_url(baseurl), person_id)
 
 
 def upload_api_url(baseurl):
