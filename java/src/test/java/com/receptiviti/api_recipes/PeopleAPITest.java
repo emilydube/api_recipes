@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class PersonAPITest {
+public class PeopleAPITest {
 
     @Test
-    public void createPersonWithWritingSampleRequest() throws IOException {
+    public void createPersonWithContent() throws IOException {
         PostMethod postRequest = new PostMethod(getPersonAPIUrl());
         TestUtils.setAuthenticationHeaders(postRequest);
 
@@ -80,7 +80,7 @@ public class PersonAPITest {
     }
 
     @Test
-    public void addSampleForAnExistingPerson() throws IOException {
+    public void addContentForAnExistingPerson() throws IOException {
         ArrayList<HashMap<String, Object>> allPeople = getAllPeople();
         HashMap<String, Object> person = allPeople.get(0);
         String personId = (String) person.get("_id");

@@ -50,7 +50,7 @@ def test_get_people_in_the_system(baseurl, apikey, apisecret):
 
 
 @pytest.mark.person_api
-def test_submit_sample_for_an_existing_person(baseurl, apikey, apisecret):
+def test_add_content_for_an_existing_person(baseurl, apikey, apisecret):
     auth_headers = conftest.auth_headers(apikey, apisecret)
 
     person = get_one_person(auth_headers, baseurl)

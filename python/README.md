@@ -1,9 +1,23 @@
 # Index
-The recipes have been organized under python unit tests to make them easy to execute
+The recipes have been organized under python unit tests to make them easy to execute. 
+
+Please refer the [Swagger Docs](https://trial.receptiviti.com/api/spec) for the latest specs for all the APIs 
 
 ## test_person_api.py 
-This test covers all scenarios for the PersonAPI including creating a person (with and without a sample), updating a person, submitting a sample for an existing person
+This test covers the following scenarios for the People API 
+- Creating a person with content
+- Creating a person without any content
+- Adding content to an existing person
+- Get all people in the system
+
 ## test_upload_api.py
-This test covers the scenario of uploading a CSV through the API
-## test_twitter_api.py
-This test covers the scenario of importing a twitter handle through the API
+This test covers the following scenarios of the Upload API
+- Uploading a CSV through the API
+- Checking the status of the response
+- Reviewing the import results
+
+## test_twitter_import_api.py
+This test covers the following scenarios of the Twitter Import API
+- Request for a handle to be imported
+- Checking the status of the response
+- Reviewing the import results
