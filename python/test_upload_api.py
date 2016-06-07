@@ -14,7 +14,7 @@ from factories import get_sample_csv_file
 def test_upload_csv_with_email_notification_enabled(baseurl, apikey, apisecret):
     csv_file_to_upload = get_sample_csv_file("CSV_Upload_samples.csv")
     headers = conftest.auth_headers(apikey, apisecret)
-    send_email = False
+    send_email = True
 
     response = upload_csv_data(conftest.upload_api_url(baseurl), headers, csv_file_to_upload, send_email)
     expect(response.status_code).to(equal(200))

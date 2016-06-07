@@ -21,7 +21,7 @@ public class UploadAPITest {
     @Test
     public void uploadCSVFile() throws IOException, InterruptedException {
 
-        PostMethod filePost = new PostMethod(getPersonUploadAPIUrl());
+        PostMethod filePost = new PostMethod(getUploadAPIUrl());
 
         TestUtils.setAuthenticationHeaders(filePost);
 
@@ -70,8 +70,8 @@ public class UploadAPITest {
         return TestUtils.getBaseUrl()+statusUrlPart;
     }
 
-    public String getPersonUploadAPIUrl() {
-        return TestUtils.getBaseUrl() + "/api/person/upload";
+    public String getUploadAPIUrl() {
+        return TestUtils.getBaseUrl() + "/api/upload/upload_request";
     }
 
     private File getFileToUpload() {

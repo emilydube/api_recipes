@@ -67,7 +67,7 @@ def person_content_api_url(baseurl, person_id):
 
 
 def upload_api_url(baseurl):
-    return "{}/upload".format(person_api_url(baseurl))
+    return "{}/upload/upload_request".format(api_base_url(baseurl))
 
 
 def ping_url(baseurl):
