@@ -7,15 +7,15 @@
 import requests
 requests.packages.urllib3.disable_warnings()
 
-class NuanceException(Exception):
+class VoiceException(Exception):
     pass
 
 
-class Nuance():
-    def __init__(self, nuance_config, audio_file, source_id):
+class Voice():
+    def __init__(self, voice_config, audio_file, source_id):
         self.audio_file = audio_file
         self.source_id = source_id
-        self.config = self._check_config(nuance_config)
+        self.config = self._check_config(voice_config)
 
     def transcribe(self):
         url = self._build_url()
@@ -24,9 +24,9 @@ class Nuance():
         with open(self.audio_file, 'rb') as f:
             response = requests.post(url, data=f, headers=headers)
             if response.status_code == 200:
-                return response.text, False
+                return response.text
             else:
-                raise NuanceException(response.text)
+                raise VoiceException(response.text)
 
     def _build_headers(self):
         '''create the headers required by Nuance'''
@@ -55,19 +55,19 @@ class Nuance():
     def _check_config(self, config):
         '''validate the config values'''
         if config.url is None:
-            raise NuanceException('No URL supplied')
+            raise VoiceException('No URL supplied')
 
         if config.app_id is None:
-            raise NuanceException('No appId supplied')
+            raise VoiceException('No appId supplied')
 
         if config.app_key is None:
-            raise NuanceException('No appKey supplied')
+            raise VoiceException('No appKey supplied')
 
         return config
 
 
-class NuanceConfig():
-    SECTION = 'nuance'
+class VoiceConfig():
+    SECTION = 'voice'
 
     def __init__(self, url, app_id, app_key):
         self.url = url
@@ -83,10 +83,10 @@ class NuanceConfig():
         app_key = None
 
         try:
-            url = config.get(NuanceConfig.SECTION, 'asrUrl')
-            app_id = config.get(NuanceConfig.SECTION, 'appId')
-            app_key = config.get(NuanceConfig.SECTION, 'appKey')
+            url = config.get(VoiceConfig.SECTION, 'asrUrl')
+            app_id = config.get(VoiceConfig.SECTION, 'appId')
+            app_key = config.get(VoiceConfig.SECTION, 'appKey')
         except Error, e:
             pass
 
-        return NuanceConfig(url, app_id, app_key)
+        return VoiceConfig(url, app_id, app_key)

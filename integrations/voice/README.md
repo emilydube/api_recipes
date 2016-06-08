@@ -21,8 +21,8 @@ The clip id is used by Nuance to track audio samples of the same person to impro
 You will see output similar to the following:-
 
 ```
-$ python analyse.py clips/NPRWeekly-Roundup-Snippet.wav np4r
-Transcribed text:  (u"Today was the Associated Press who most news organizations including NPR follow their guidance on on Dell get official totals called around on pledged delegates and other found enough on pledged delegates you said yes I will be voting for Donald Trump on the first ballot to get Donald Trump over that majority total which is 1237 that's the number we said more than any other member of the podcast this year we thought the trunk would not build to get there until that last day of primaries June 7 which includes California but now because more and more and pledged delegates are saying yeah he's the only guy left is going to be the nominee I'm gonna vote for him he's already there\n", False)
+$ python analyse.py clips/NPRWeekly-Roundup-Snippet.wav npr
+Transcribed text:  Today was the Associated Press who most news organizations including NPR follow their guidance on on Dell get official totals called around on pledged delegates and other found enough on pledged delegates you said yes I will be voting for Donald Trump on the first ballot to get Donald Trump over that majority total which is 1237 that's the number we said more than any other member of the podcast this year we thought the trunk would not build to get there until that last day of primaries June 7 which includes California but now because more and more and pledged delegates are saying yeah he's the only guy left is going to be the nominee I'm gonna vote for him he's already there
 
 Profile:  {
     "liwc_scores": {

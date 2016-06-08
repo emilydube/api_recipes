@@ -6,13 +6,13 @@
 
 from ConfigParser import SafeConfigParser
 from argparse import ArgumentParser
-from providers.nuance import Nuance, NuanceConfig
+from providers.voice import Voice, VoiceConfig
 from receptiviti.content import Content, ReceptivitiConfig
 import json
 
 def parse_arguments():
-    parser = ArgumentParser(description='Transcribe an audio file')
-    parser.add_argument('-p', '--provider', dest='provider', help='transcription provider to use', default='nuance')
+    parser = ArgumentParser(description='Analyse text from an an audio file')
+    parser.add_argument('-p', '--provider', dest='provider', help='transcription provider to use', default='voice')
     parser.add_argument('-c', '--config', dest='config_file', help='config file to read', default='config.ini')
     parser.add_argument('audio_file', help='audio file to transcribe')
     parser.add_argument('source_id', help='id of person being transcribed')
@@ -27,9 +27,9 @@ def read_config(config_file):
 def provider_factory(args, config):
     provider = None
 
-    if args.provider == 'nuance':
-        nuance_config = NuanceConfig.from_config_file(config)
-        provider = Nuance(nuance_config, args.audio_file, args.source_id)
+    if args.provider == 'voice':
+        voice_config = VoiceConfig.from_config_file(config)
+        provider = Voice(voice_config, args.audio_file, args.source_id)
 
     return provider
 
@@ -45,7 +45,8 @@ if provider is None:
 
 text = provider.transcribe()
 print 'Transcribed text: ', text, "\n"
-# got the text - hand it to receptiviti to analyse
+
+# got the text - hand it to Receptiviti to analyse
 receptiviti_config = ReceptivitiConfig.from_config_file(config)
 content = Content(receptiviti_config,  # the api key and secret from the config file
                    args.source_id,     # use the source id as the person name
