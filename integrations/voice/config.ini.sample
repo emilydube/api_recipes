@@ -2,7 +2,7 @@
 api_key = <your api key>
 api_secret = <your api secret>
 
-[voice]
+[nuance]
 asrUrl = dictation.nuancemobility.net/NMDPAsrCmdServlet/dictation
 appId = <your app id>
 appKey = <your app key>
