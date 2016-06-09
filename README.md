@@ -1,32 +1,13 @@
 #Recipes for working with Receptiviti API
 
+##Tests
 
-##Java
+These are a set of tests that can be run against the Receptiviti API. Get your API key and secret, then run either the Java or the Python tests. Examine the code to see how they work. Instructions are in the README.md file in the tests folder
 
-###Setup
+##Samples
 
-####JDK 8
+These are sample files in a variety of languages that showcase a single Receptiviti feature. See the README.md file in each folder.
 
-This is a Java project. So the first thing we need to care about is JDK (Java Development Kit) installation. Java 8 is the minimum required version for this project. Can be downloaded here: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+##Integrations
 
-####Maven
-
-Maven is a project builder normally used for most of Java projects. It is supported by all Java IDEs and it is possible to build and run Java applications with Maven directly from command line. Maven can be downloaded here: https://maven.apache.org/download.cgi. Minimal version we need is 3.0.5. Please follow installation instructions at the bottom of the page.
-
-###Running Samples
-
-
-    mvn test -DAPI_KEY=<Provide API KEY> -DAPI_SECRET_KEY=<Provide API SECRET KEY>
-
-
-##Python
-###Setup
-####Install pip
-https://pip.pypa.io/en/stable/installing/
-
-###Install dependencies
-
-    pip install -r requirements.txt
-    
-###Running Samples
-    py.test --key <Provide API KEY> --secret <Provide API SECRET KEY> -s
+These are sample inegrations with 3rd-party services that demonstrate how to obtain content that can be passed to the Receptiviti speech analytics system. See the README.md in each folder for more information.

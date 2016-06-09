@@ -25,7 +25,7 @@ to one another.
 
 
 def pytest_addoption(parser):
-    parser.addoption("--baseurl", action="store", default="https://trial.receptiviti.com", help="Specify this in the format https://<target_domain_name>")
+    parser.addoption("--baseurl", action="store", default="https://app.receptiviti.com", help="Specify this in the format https://<target_domain_name>")
     parser.addoption("--key", action="store", default=None, help="The API key for the test user")
     parser.addoption("--secret", action="store", default=None, help="The API secret for the test user")
 
