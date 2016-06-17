@@ -17,7 +17,7 @@ def v(verbose, text):
 class Receptiviti():
     def __init__(self, server, api_key, api_secret, verbose=False):
         """
-        initialise an LSM object
+        initialise a Receptiviti object
 
         :type server: str
         :type api_key: str
@@ -32,7 +32,9 @@ class Receptiviti():
     def get_person_id(self, person):
         v(self.verbose, 'getting person: {}'.format(person))
         headers = self._create_headers()
-        params = { 'person_handle': person}
+        params = {
+            'person_handle': person
+        }
         response = requests.get('{}/api/person'.format(self.server), headers=headers, params=params)
         if response.status_code == 200:
             matches = response.json()
@@ -95,7 +97,7 @@ class Receptiviti():
             id2 = self.create_person(person2_name)
 
         if self.add_lsm_content(id1, person1_content, id2) is None or self.add_lsm_content(id2, person2_content, id1) is None:
-            v(self.verbose, 'Failed to add content')
+            print('Failed to add content')
         else:
             return self.get_lsm_score(id1, id2)
 
@@ -117,7 +119,7 @@ if __name__ == '__main__':
 
 
     description = '''Get the LSM score between 2 speakers. Pass in two files. Each file contains the text for one of the speakers and is named
-    for that speaker. The text and names are used to create the speakers on the Receptiviti
+    for that speaker. The text and names are used to create the speakers via the Receptiviti
     API, to add the text and to obtain the score.
     '''
 
