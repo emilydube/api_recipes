@@ -1,5 +1,4 @@
-#Recipes for working with Receptiviti API
-
+#Recipes, through tests, for working with Receptiviti API
 
 ##Java
 
