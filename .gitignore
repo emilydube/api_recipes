@@ -6,3 +6,7 @@ java/target
 .idea
 .cache
 *.pyc
+
+.gradle
+build
+out
