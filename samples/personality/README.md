@@ -19,6 +19,6 @@ Use the supplied gradle tool to build the project:-
 
 Once you have built this project you can run it as follows:-
 
-```java -jar build/libs/personality.jar <filename>```
+```java -jar build/libs/personality.jar <key> <secret> <filename>```
 
 The filename will be used as the person's name and the file contents will be used as the person's writing.
