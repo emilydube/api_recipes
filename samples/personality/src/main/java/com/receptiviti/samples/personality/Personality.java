@@ -53,7 +53,7 @@ public class Personality {
         if (content.content != null) {
             try {
                 receptiviti = new Receptiviti(server, arguments.get(0), arguments.get(1));
-                person = new Person(content.name, content.name+"5", 0);
+                person = new Person(content.name, content.name, 0);
                 person = receptiviti.GetPersonID(person);
                 if (person.id == null) {
                     person = receptiviti.SavePerson(person);
