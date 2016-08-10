@@ -10,3 +10,4 @@ java/target
 .gradle
 build
 out
+tests/java/target/*
