@@ -38,4 +38,3 @@ https://pip.pypa.io/en/stable/installing/
 An additional, optional, parameter is ```--baseurl```. You can use it to specify which server to use when running the tests:-
 
 - *https://app.receptiviti.com* - this is the production server.
-- *https://sandbox-api.receptiviti.com* - this is the sandbox environment where you can test your code before deploying it in production.
