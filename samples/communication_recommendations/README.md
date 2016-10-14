@@ -22,7 +22,7 @@ The Receptiviti API provides you an easy way to learn how to communicate with a 
   - get the communication recommendation from the profile of that person
   
   ```GET /api/person/<person id>/profile```
-
+    In the response, the key "communication_recommendations" will have the necessary information
 
 ## Running the sample code
 
