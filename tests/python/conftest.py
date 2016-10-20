@@ -61,6 +61,9 @@ def api_base_url(baseurl):
 def person_api_url(baseurl):
     return "{}/person".format(api_base_url(baseurl))
 
+def merge_personality_api_url(baseurl):
+    return "{}/person/merged_personality".format(api_base_url(baseurl))
+
 
 def person_content_api_url(baseurl, person_id):
     return "{}/person/{}/contents".format(api_base_url(baseurl), person_id)

@@ -69,6 +69,36 @@ def test_add_content_for_an_existing_person(baseurl, apikey, apisecret):
     expect(response_json).to(have_key("liwc_scores"))
     expect(response_json["content_handle"]).to(equal(sample_data["content_handle"]))
 
+@pytest.mark.person_api
+def test_merge_personality(baseurl, apikey, apisecret):
+    auth_headers = conftest.auth_headers(apikey, apisecret)
+
+    person1_id = create_one_person(auth_headers, baseurl)
+    person2_id = create_one_person(auth_headers, baseurl)
+    person3_id = create_one_person(auth_headers, baseurl)
+    query_params = "&".join(["person_ids={}".format(person1_id) for person_id in [person1_id, person2_id, person3_id]])
+
+    merge_personality_api_url = "{}?{}".format(conftest.merge_personality_api_url(baseurl), query_params)
+
+    response = get(merge_personality_api_url, headers=auth_headers)
+    expect(response.status_code).to(equal(200))
+    response_json = json.loads(response.content)
+
+    expect(response_json).to(have_key("receptiviti_scores"))
+    expect(response_json).to(have_key("liwc_scores"))
+
+
+
+
+def create_one_person(auth_headers, baseurl):
+    content_data = factories.get_content_data()
+    person_data = factories.get_person_data(content_data)
+    person_api_url = conftest.person_api_url(baseurl)
+    response = post(person_api_url, json=person_data, headers=auth_headers)
+    response_json = json.loads(response.content)
+    person_id = response_json["_id"]
+    return person_id
+
 
 def get_one_person(auth_headers, baseurl):
     people = get_all_people_in_the_system(auth_headers, baseurl)
@@ -76,7 +106,7 @@ def get_one_person(auth_headers, baseurl):
 
 
 def get_all_people_in_the_system(auth_headers, baseurl):
-    person_api_url = conftest.person_api_url(baseurl)
+    person_api_url = conftest.person_api_url(baseurl).strip()
     response = get(person_api_url, headers=auth_headers)
     expect(response.status_code).to(equal(200))
     people = json.loads(response.content)
