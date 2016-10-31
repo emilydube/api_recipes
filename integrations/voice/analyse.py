@@ -10,6 +10,7 @@ from providers.nuance import Nuance, NuanceConfig
 from receptiviti.content import Content, ReceptivitiConfig
 import json
 
+
 def parse_arguments():
     parser = ArgumentParser(description='Analyse text from an audio file')
     parser.add_argument('-p', '--provider', dest='provider', help='transcription provider to use', default='nuance')
@@ -17,12 +18,14 @@ def parse_arguments():
     parser.add_argument('audio_file', help='audio file to transcribe')
     parser.add_argument('source_id', help='id of person being transcribed')
 
-    return parser.parse_args()  
+    return parser.parse_args()
+
 
 def read_config(config_file):
     config = SafeConfigParser()
     config.read(config_file)
     return config
+
 
 def provider_factory(args, config):
     provider = None

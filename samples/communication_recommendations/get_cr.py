@@ -36,7 +36,7 @@ class Receptiviti():
         params = {
             'person_handle': person
         }
-        response = requests.get('{}/api/person'.format(self.server), headers=headers, params=params)
+        response = requests.get('{}/v2/api/person'.format(self.server), headers=headers, params=params)
         if response.status_code == 200:
             matches = response.json()
             if len(matches) > 0:
@@ -58,7 +58,7 @@ class Receptiviti():
             'person_handle': person,
             'gender': 0
         }
-        response = requests.post('{}/api/person'.format(self.server), headers=headers, data=json.dumps(data))
+        response = requests.post('{}/v2/api/person'.format(self.server), headers=headers, data=json.dumps(data))
         if response.status_code != 200:
             v(self.verbose, 'Http Response: {}'.format(response))
             raise Exception("Creating person failed!")
@@ -72,7 +72,7 @@ class Receptiviti():
             'language_content': content,
             'content_source': 6
         }
-        response = requests.post('{}/api/person/{}/contents'.format(self.server, person_id), headers=headers,
+        response = requests.post('{}/v2/api/person/{}/contents'.format(self.server, person_id), headers=headers,
                                  data=json.dumps(data))
 
         if response.status_code != 200:
@@ -83,7 +83,7 @@ class Receptiviti():
     def get_profile(self, person_id):
         v(self.verbose, 'get profile for {}'.format(person_id))
         headers = self._create_headers({'Accept': 'application/json'})
-        response = requests.get('{}/api/person/{}/profile'.format(self.server, person_id), headers=headers)
+        response = requests.get('{}/v2/api/person/{}/profile'.format(self.server, person_id), headers=headers)
         if response.status_code != 200:
             raise Exception("Get profile failed!")
         return response.json()

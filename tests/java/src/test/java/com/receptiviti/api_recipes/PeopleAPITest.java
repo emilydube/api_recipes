@@ -134,7 +134,7 @@ public class PeopleAPITest {
     }
 
     public String getPersonAPIUrl() {
-        return MessageFormat.format("{0}/api/person", TestUtils.getBaseUrl());
+        return MessageFormat.format("{0}/v2/api/person", TestUtils.getBaseUrl());
     }
 
     public String getPersonContentAPIUrl(String personId) {
