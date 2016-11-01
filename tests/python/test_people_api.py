@@ -1,17 +1,19 @@
 import json
 import random
+
 from expects import expect, equal
 from expects.matchers.built_in import be_above
 from expects.matchers.built_in.have_keys import have_key
+
 import pytest
 from requests import *
+
 import conftest
 import factories
 
 
 @pytest.mark.person_api
 def test_create_person_with_content(baseurl, apikey, apisecret):
-
     content_data = factories.get_content_data()
     person_data = factories.get_person_data(content_data)
 
@@ -49,6 +51,13 @@ def test_get_people_in_the_system(baseurl, apikey, apisecret):
     expect(people[0]).to(have_key("_id"))
 
 
+def _print_interesting_content_information(response_json):
+    print("Authenticity Score: {}".format(response_json["liwc_scores"]["authenticity"]))
+    print("Thinking Style: {}".format(response_json["receptiviti_scores"]["percentiles"]["thinking_style"]))
+    print("Personality Snapshot: {}".format(response_json["personality_snapshot"]))
+    print("Communication Recommendation: {}".format(response_json["communication_recommendation"]))
+
+
 @pytest.mark.person_api
 def test_add_content_for_an_existing_person(baseurl, apikey, apisecret):
     auth_headers = conftest.auth_headers(apikey, apisecret)
@@ -57,17 +66,19 @@ def test_add_content_for_an_existing_person(baseurl, apikey, apisecret):
     sample_data = factories.get_content_data()
 
     create_sample_url = conftest.person_content_api_url(baseurl, person["_id"])
-    print("*"*20)
+    print("*" * 20)
     print("create_sample_url={}".format(create_sample_url))
-    print("*"*20)
+    print("*" * 20)
 
     response = post(create_sample_url, json=sample_data, headers=auth_headers)
     expect(response.status_code).to(equal(200))
     response_json = json.loads(response.content)
 
+    expect(response_json["content_handle"]).to(equal(sample_data["content_handle"]))
     expect(response_json).to(have_key("receptiviti_scores"))
     expect(response_json).to(have_key("liwc_scores"))
-    expect(response_json["content_handle"]).to(equal(sample_data["content_handle"]))
+    _print_interesting_content_information(response_json)
+
 
 @pytest.mark.person_api
 def test_merge_personality(baseurl, apikey, apisecret):
@@ -86,8 +97,6 @@ def test_merge_personality(baseurl, apikey, apisecret):
 
     expect(response_json).to(have_key("receptiviti_scores"))
     expect(response_json).to(have_key("liwc_scores"))
-
-
 
 
 def create_one_person(auth_headers, baseurl):
