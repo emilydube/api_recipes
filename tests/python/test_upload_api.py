@@ -22,7 +22,7 @@ def test_upload_csv_with_email_notification_enabled(baseurl, apikey, apisecret):
     status_check_url = "{}{}".format(baseurl, response.json()["_links"]["self"]["href"])
     latest_response = response.json()
     idx = 1
-    while latest_response["status"] not in ["completed", "failed", "errored"]:
+    while latest_response["status"] not in ["completed", "failed", "errored"] and idx < 50:
         time.sleep(5)
         response = get(status_check_url, headers=headers)
         expect(response.status_code).to(equal(200))
