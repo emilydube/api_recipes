@@ -52,7 +52,7 @@ def test_get_people_in_the_system(baseurl, apikey, apisecret):
 
 
 def _print_interesting_content_information(response_json):
-    print("Authenticity Score: {}".format(response_json["liwc_scores"]["authenticity"]))
+    print("Authenticity Score: {}".format(response_json["liwc_scores"]["authentic"]))
     print("Thinking Style: {}".format(response_json["receptiviti_scores"]["percentiles"]["thinking_style"]))
     print("Personality Snapshot: {}".format(response_json["personality_snapshot"]))
     print("Communication Recommendation: {}".format(response_json["communication_recommendation"]))
