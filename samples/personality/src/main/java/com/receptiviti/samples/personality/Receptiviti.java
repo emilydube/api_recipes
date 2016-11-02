@@ -45,7 +45,7 @@ public class Receptiviti {
     }
 
     public Person GetPersonID(Person person) throws UnirestException, ReceptivitiExpection {
-        String url = String.format("%s/api/person", this.server);
+        String url = String.format("%s/v2/api/person", this.server);
         HttpResponse<JsonNode> response;
         String id = null;
 
@@ -66,7 +66,7 @@ public class Receptiviti {
     }
 
     public Person SavePerson(Person person) throws UnirestException, ReceptivitiExpection {
-        String url = String.format("%s/api/person", this.server);
+        String url = String.format("%s/v2/api/person", this.server);
         HttpResponse<JsonNode> response;
         String id = null;
 
@@ -86,7 +86,7 @@ public class Receptiviti {
     }
 
     public Content AnalyseContent(Person person, Content content) throws UnirestException, ReceptivitiExpection {
-        String url = String.format("%s/api/person/%s/contents", this.server, person.id);
+        String url = String.format("%s/v2/api/person/%s/contents", this.server, person.id);
         HttpResponse<JsonNode> response;
         String id = null;
         ArrayList<String> snapshot = new ArrayList<>();

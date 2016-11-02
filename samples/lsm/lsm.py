@@ -35,7 +35,7 @@ class Receptiviti():
         params = {
             'person_handle': person
         }
-        response = requests.get('{}/api/person'.format(self.server), headers=headers, params=params)
+        response = requests.get('{}/v2/api/person'.format(self.server), headers=headers, params=params)
         if response.status_code == 200:
             matches = response.json()
             if len(matches) > 0:
@@ -57,7 +57,7 @@ class Receptiviti():
             'person_handle': person,
             'gender': 0
         }
-        response = requests.post('{}/api/person'.format(self.server), headers=headers, data=json.dumps(data))
+        response = requests.post('{}/v2/api/person'.format(self.server), headers=headers, data=json.dumps(data))
         if response.status_code == 200:
             return response.json()['_id']
         return None
@@ -70,7 +70,7 @@ class Receptiviti():
             'recipient_id': recipient_id,
             'content_source': 6
         }
-        response = requests.post('{}/api/person/{}/contents'.format(self.server, person_id), headers=headers, data=json.dumps(data))
+        response = requests.post('{}/v2/api/person/{}/contents'.format(self.server, person_id), headers=headers, data=json.dumps(data))
         if response.status_code == 200:
             return response.json()['_id']
         return None
@@ -82,7 +82,7 @@ class Receptiviti():
             'person1': id1,
             'person2': id2
         }
-        response = requests.get('{}/api/lsm_score'.format(self.server), headers=headers, params=params)
+        response = requests.get('{}/v2/api/lsm_score'.format(self.server), headers=headers, params=params)
         if response.status_code == 200:
             return response.json()['lsm_score']
         return None

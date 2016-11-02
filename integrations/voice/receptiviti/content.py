@@ -7,8 +7,10 @@
 import requests
 from json import dumps, loads
 
+
 class ReceptivitiException(Exception):
     pass
+
 
 class Content():
     NOTSPECIFIED = 0
@@ -24,7 +26,7 @@ class Content():
     ANONYMOUS_REVIEW = 7
     OTHER = 0
 
-    URL = 'https://app.receptiviti.com/api/person'
+    URL = 'https://app.receptiviti.com/v2/api/person'
 
     def __init__(self, config, name, gender, person_handle, content_handle, content_source, language, language_content):
         self.content = {

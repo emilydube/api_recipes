@@ -71,7 +71,7 @@ public class UploadAPITest {
     }
 
     public String getUploadAPIUrl() {
-        return TestUtils.getBaseUrl() + "/api/upload/upload_request";
+        return TestUtils.getBaseUrl() + "/v2/api/upload/upload_request";
     }
 
     private File getFileToUpload() {

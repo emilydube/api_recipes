@@ -55,7 +55,7 @@ def twitter_import_user_api_url(baseurl):
 
 
 def api_base_url(baseurl):
-    return "{}/api".format(baseurl)
+    return "{}/v2/api".format(baseurl)
 
 
 def person_api_url(baseurl):
