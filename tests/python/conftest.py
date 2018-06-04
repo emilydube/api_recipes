@@ -46,7 +46,7 @@ def apisecret(request):
 
 
 def api_base_url(baseurl):
-    return "{}/v2/api".format(baseurl)
+    return "{}/v3/api".format(baseurl)
 
 
 def content_api_url(baseurl):
