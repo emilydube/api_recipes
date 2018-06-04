@@ -45,32 +45,12 @@ def apisecret(request):
     return request.config.getoption("--secret")
 
 
-@pytest.fixture
-def twitter_handle():
-    return 'anncoulter'
-
-
-def twitter_import_user_api_url(baseurl):
-    return "{}/import/twitter/user".format(api_base_url(baseurl))
-
-
 def api_base_url(baseurl):
     return "{}/v2/api".format(baseurl)
 
 
-def person_api_url(baseurl):
-    return "{}/person".format(api_base_url(baseurl))
-
-def merge_personality_api_url(baseurl):
-    return "{}/person/merged_personality".format(api_base_url(baseurl))
-
-
-def person_content_api_url(baseurl, person_id):
-    return "{}/person/{}/contents".format(api_base_url(baseurl), person_id)
-
-
-def upload_api_url(baseurl):
-    return "{}/upload/upload_request".format(api_base_url(baseurl))
+def content_api_url(baseurl):
+    return "{}/content".format(api_base_url(baseurl))
 
 
 def ping_url(baseurl):
